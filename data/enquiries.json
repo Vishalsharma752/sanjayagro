@@ -61,5 +61,23 @@
     "subject": "Testing Fallback",
     "message": "wegrhfjgkhulij;ko",
     "createdAt": "2026-07-24T05:01:41.840Z"
+  },
+  {
+    "id": 8,
+    "name": "Rahul",
+    "email": "rahul@example.com",
+    "phone": null,
+    "subject": null,
+    "message": "Test enquiry for clean URL redirect",
+    "createdAt": "2026-07-24T05:13:01.868Z"
+  },
+  {
+    "id": 9,
+    "name": "vishal",
+    "email": "visrma34649@gmail.com",
+    "phone": "9876543210",
+    "subject": "Test Subject",
+    "message": "i want ",
+    "createdAt": "2026-07-24T05:15:32.880Z"
   }
 ]
