@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #f3f5f8;
+  --color-brand-100: #e2e7ef;
+  --color-brand-200: #c4cedd;
+  --color-brand-300: #98abcc;
+  --color-brand-400: #647eb4;
+  --color-brand-500: #1d3f5d;
+  --color-brand-600: #102436;
+  --color-brand-700: #0c1b29;
+  --color-brand-800: #08121b;
+  --color-brand-900: #040a0e;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --font-sans: "Poppins", system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", system-ui, -apple-system, sans-serif;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.8) 0%,
+    rgba(30, 41, 59, 0.65) 50%,
+    rgba(15, 23, 42, 0.5) 100%
+  );
+}
+
+.section-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(16, 36, 54, 0.08) 1px, transparent 0);
+  background-size: 32px 32px;
+}
