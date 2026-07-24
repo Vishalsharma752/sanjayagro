@@ -92,19 +92,16 @@ export default function Header() {
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, "#hero")}
-            className="flex items-center gap-3"
+            className="flex items-center"
           >
             <Image
-              src="/logo.png"
+              src="/sanjay.png"
               alt="Sanjay Agro Logo"
-              width={180}
-              height={48}
+              width={200}
+              height={55}
               className="h-10 w-auto object-contain md:h-12"
               priority
             />
-            <span className="text-2xl font-black tracking-tight text-brand-900 italic font-serif">
-              Sanjay Agro
-            </span>
           </a>
 
           {/* Desktop Nav */}
