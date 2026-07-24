@@ -95,7 +95,7 @@ export default function Header() {
             className="flex items-center"
           >
             <Image
-              src="/sanjay.png"
+              src="/sanjayagro/sanjay.png"
               alt="Sanjay Agro Logo"
               width={200}
               height={55}

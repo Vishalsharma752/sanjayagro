@@ -22,8 +22,8 @@ export const products: Product[] = [
       "Robust heavy-duty design",
       "Hydraulic leveling angles",
     ],
-    image: "/tractor-fitted-grade.png",
-    secondaryImage: "/tractor-2.png",
+    image: "/sanjayagro/tractor-fitted-grade.png",
+    secondaryImage: "/sanjayagro/tractor-2.png",
   },
   {
     id: "new-holland-7500-grader",
@@ -32,7 +32,7 @@ export const products: Product[] = [
     description:
       "High-performance New Holland 7500 tractor fitted grader designed for precision leveling and grading operations in agricultural and construction fields.",
     features: ["Heavy-duty blade", "Hydraulic control", "Durable build", "Easy operation"],
-    image: "/new-holland-7500.jpg",
+    image: "/sanjayagro/new-holland-7500.jpg",
     hp: "75 HP",
   },
 ];

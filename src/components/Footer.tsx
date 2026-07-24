@@ -25,7 +25,7 @@ export default function Footer() {
               className="inline-block bg-white px-3 py-1.5 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <Image
-                src="/sanjay.png"
+                src="/sanjayagro/sanjay.png"
                 alt="Sanjay Agro Logo"
                 width={160}
                 height={44}
@@ -135,7 +135,7 @@ export default function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-white p-1 shadow-sm transition hover:scale-110"
               >
                 <Image
-                  src="/tis-logo.png"
+                  src="/sanjayagro/tis-logo.png"
                   alt="TIS Nexus Logo"
                   width={26}
                   height={26}
