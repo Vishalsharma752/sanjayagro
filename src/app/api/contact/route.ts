@@ -16,44 +16,46 @@ export async function POST(request: Request) {
       );
     }
 
+    // Save to local enquiries.json
+    const enquiriesDir = path.join(process.cwd(), "data");
+    const filePath = path.join(enquiriesDir, "enquiries.json");
+    
+    await fs.mkdir(enquiriesDir, { recursive: true });
+    
+    let existingEnquiries: any[] = [];
     try {
-      await db.insert(contactMessages).values({
-        name,
-        email,
-        phone: phone || null,
-        subject: subject || null,
-        message,
-      });
-    } catch (dbError) {
-      console.warn("Database insert failed, using JSON file fallback:", dbError);
-      
-      // Fallback: Save to local enquiries.json in the workspace
-      const enquiriesDir = path.join(process.cwd(), "data");
-      const filePath = path.join(enquiriesDir, "enquiries.json");
-      
-      // Ensure directory exists
-      await fs.mkdir(enquiriesDir, { recursive: true });
-      
-      let existingEnquiries: any[] = [];
-      try {
-        const fileContent = await fs.readFile(filePath, "utf-8");
-        existingEnquiries = JSON.parse(fileContent);
-      } catch (readError) {
-        // File doesn't exist or is invalid, start with empty array
+      const fileContent = await fs.readFile(filePath, "utf-8");
+      existingEnquiries = JSON.parse(fileContent);
+    } catch (readError) {
+      // Start with empty array if file does not exist
+    }
+    
+    const newEnquiry = {
+      id: existingEnquiries.length + 1,
+      name,
+      email,
+      phone: phone || null,
+      subject: subject || null,
+      message,
+      createdAt: new Date().toISOString(),
+    };
+    
+    existingEnquiries.push(newEnquiry);
+    await fs.writeFile(filePath, JSON.stringify(existingEnquiries, null, 2), "utf-8");
+
+    // Optional DB insert if database is available
+    try {
+      if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("localhost") && !process.env.DATABASE_URL.includes("127.0.0.1")) {
+        await db.insert(contactMessages).values({
+          name,
+          email,
+          phone: phone || null,
+          subject: subject || null,
+          message,
+        });
       }
-      
-      const newEnquiry = {
-        id: existingEnquiries.length + 1,
-        name,
-        email,
-        phone: phone || null,
-        subject: subject || null,
-        message,
-        createdAt: new Date().toISOString(),
-      };
-      
-      existingEnquiries.push(newEnquiry);
-      await fs.writeFile(filePath, JSON.stringify(existingEnquiries, null, 2), "utf-8");
+    } catch (dbError) {
+      console.warn("DB insert skipped or failed:", dbError);
     }
 
     return NextResponse.json(
