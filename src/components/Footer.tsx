@@ -22,7 +22,7 @@ export default function Footer() {
             <a
               href="#hero"
               onClick={(e) => handleScroll(e, "#hero")}
-              className="inline-block bg-white px-3 py-1.5 rounded-lg shadow-sm hover:shadow-md transition"
+              className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <Image
                 src="/logo.png"
@@ -31,6 +31,9 @@ export default function Footer() {
                 height={38}
                 className="h-8 w-auto object-contain"
               />
+              <span className="text-lg font-black tracking-tight text-brand-900 italic font-serif">
+                Sanjay Agro
+              </span>
             </a>
             <p className="mt-4 text-sm leading-relaxed text-brand-200">
               Leading Manufacturer, Supplier & Wholesaler of Tractor Fitted
