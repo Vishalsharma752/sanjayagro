@@ -25,8 +25,8 @@ export default function HomePage() {
               <div className="relative">
                 <div className="overflow-hidden rounded-3xl shadow-2xl">
                   <img
-                    src="/sanjayagro/about-03.jpg"
-                    alt="Sanjay Agro office consultation"
+                    src="/sanjayagro/about-us-new.png"
+                    alt="Sanjay Agro manufacturing facility and consultation"
                     className="h-[500px] w-full object-cover"
                   />
                 </div>

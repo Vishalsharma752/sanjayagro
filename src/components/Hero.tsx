@@ -5,8 +5,16 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
-  "/sanjayagro/slide-hero-2.jpg",
-  "/sanjayagro/new-holland-7500.jpg",
+  {
+    src: "/sanjayagro/slide-hero-2.jpg",
+    fit: "object-cover",
+    alt: "Sanjay Agro Banner 1",
+  },
+  {
+    src: "/sanjayagro/imgi_2_552185.jpg",
+    fit: "object-cover",
+    alt: "Sanjay Agro Banner 2",
+  },
 ];
 
 export default function Hero() {
@@ -15,7 +23,7 @@ export default function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 2000);
+    }, 3000);
     return () => clearInterval(timer);
   }, []);
 
@@ -28,20 +36,29 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative w-full aspect-[1200/360] bg-zinc-900 overflow-hidden group">
+    <section className="relative w-full aspect-[1200/360] bg-zinc-950 overflow-hidden group">
       {/* Background Image Slider */}
       <div className="absolute inset-0">
         {slides.map((slide, idx) => (
           <div
-            key={slide}
+            key={slide.src}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               idx === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
+            {/* Background blur container for non-cover images */}
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={slide.src}
+                alt=""
+                className="h-full w-full object-cover blur-xl opacity-40 scale-110 pointer-events-none"
+              />
+            </div>
+            {/* Main Image */}
             <img
-              src={slide}
-              alt={`Sanjay Agro Banner ${idx + 1}`}
-              className="h-full w-full object-cover"
+              src={slide.src}
+              alt={slide.alt}
+              className={`relative z-10 h-full w-full ${slide.fit}`}
             />
           </div>
         ))}
@@ -50,14 +67,14 @@ export default function Hero() {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition opacity-0 group-hover:opacity-100 hover:bg-black/60"
+        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition opacity-0 group-hover:opacity-100 hover:bg-black/70"
         aria-label="Previous slide"
       >
         <ChevronLeft className="h-4 w-4 md:h-6 md:w-6" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition opacity-0 group-hover:opacity-100 hover:bg-black/60"
+        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition opacity-0 group-hover:opacity-100 hover:bg-black/70"
         aria-label="Next slide"
       >
         <ChevronRight className="h-4 w-4 md:h-6 md:w-6" />
