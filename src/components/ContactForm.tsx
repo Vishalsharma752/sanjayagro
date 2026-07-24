@@ -38,10 +38,7 @@ export default function ContactForm() {
 
       if (res.ok) {
         setStatus("success");
-        const query = new URLSearchParams();
-        if (formData.name) query.set("name", formData.name);
-        if (formData.subject) query.set("subject", formData.subject);
-        router.push(`/thank-you?${query.toString()}`);
+        router.push("/thank-you");
       } else {
         setStatus("error");
         setResponseMessage(data.error || "Something went wrong.");
