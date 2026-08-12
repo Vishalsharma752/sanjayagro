@@ -97,3 +97,8 @@ export const stats = [
   { value: "500+", label: "Happy Clients" },
   { value: "15+", label: "Years Experience" },
 ];
+
+export const siteConfig = {
+  SanjayAgro: "Sanjay Agro",
+};
+

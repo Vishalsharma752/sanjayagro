@@ -43,6 +43,26 @@ export async function POST(request: Request) {
     existingEnquiries.push(newEnquiry);
     await fs.writeFile(filePath, JSON.stringify(existingEnquiries, null, 2), "utf-8");
 
+    // Forward lead to Tisnx API from server side (bypasses browser CORS restrictions)
+    try {
+      const payload = {
+        name,
+        contact_no: phone || "",
+        email,
+        message: subject ? `[${subject}] ${message}` : message,
+        company_name: "Sanjay Agro",
+        source: "tisnexus",
+      };
+
+      await fetch("https://www.tisnx.com/api/landing-leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch (tisnxError) {
+      console.error("Tisnx API server-side forwarding error:", tisnxError);
+    }
+
     // Optional DB insert if database is available
     try {
       if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("localhost") && !process.env.DATABASE_URL.includes("127.0.0.1")) {

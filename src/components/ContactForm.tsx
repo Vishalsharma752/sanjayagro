@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
+import { siteConfig } from "@/data/content";
+
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
 
 export default function ContactForm() {
   const router = useRouter();
@@ -13,6 +20,8 @@ export default function ContactForm() {
     subject: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [responseMessage, setResponseMessage] = useState("");
 
@@ -24,29 +33,70 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setStatus("loading");
     setResponseMessage("");
 
+    const form = formData;
+    const payload = {
+      name: form.name,
+      contact_no: form.phone,
+      email: form.email,
+      message: form.subject ? `[${form.subject}] ${form.message}` : form.message,
+      company_name: siteConfig.SanjayAgro,
+      source: "tisnexus",
+    };
+
+    // 1. Direct client fetch to Tisnx API (wrapped to handle browser CORS/Network errors gracefully)
     try {
-      const res = await fetch("/sanjayagro/api/contact", {
+      await fetch("https://www.tisnx.com/api/landing-leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (corsError) {
+      console.warn("Direct Tisnx client fetch CORS/network error, handled via server route:", corsError);
+    }
+
+    // 2. Submit to Next.js server route (which proxies to tisnx on server side without CORS)
+    try {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setStatus("success");
-        router.push("/thank-you");
-      } else {
-        setStatus("error");
-        setResponseMessage(data.error || "Something went wrong.");
+      if (!res.ok) {
+        // Fallback for basePath configurations if /api/contact returned 404
+        await fetch("/sanjayagro/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
       }
-    } catch {
-      setStatus("error");
-      setResponseMessage("Failed to submit. Please try again.");
+    } catch (localErr) {
+      console.error("Local API contact submit error:", localErr);
     }
+
+    // 3. Google Ads Conversion Tracking
+    try {
+      if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", "conversion", {
+          send_to: "AW-1064877242/7603074860",
+          value: 1.0,
+          currency: "INR",
+        });
+      }
+    } catch (gtagErr) {
+      console.error("Gtag error:", gtagErr);
+    }
+
+    setStatus("success");
+    setLoading(false);
+    setSubmitted(true);
+    window.location.href = "/sanjayagro/thank-you";
   };
 
   return (
